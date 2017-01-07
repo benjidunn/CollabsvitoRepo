@@ -17,7 +17,7 @@ class Generator:
         Don't add the ending /
     """
     
-    zippath = 'zips'
+    zippath = 'packages'
 
     """
         Generates a new addons.xml file from each addons addon.xml file

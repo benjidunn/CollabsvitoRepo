@@ -1,2 +1,2 @@
 # Repo
-Private Repository for some Addons in XBMC
+Private Repository for some Addons in KODI

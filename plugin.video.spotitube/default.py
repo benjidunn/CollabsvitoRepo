@@ -70,7 +70,8 @@ urlBaseSCC = "https://spotifycharts.com/"
 urlBaseSTUN = "https://api.tunigo.com/v3/space/"
 #REtoken2 = "AIzaSyBT8_HQW02I1hNSeQdfnapsReDda9Mz0N4"
 token = "AIzaSyCIM4EzNqi1in22f4Z3Ru3iYvLaY8tc3bo"
-	
+playlistAction = 'play' if addon.getSetting("playlistAction") == '1' else 'browse'
+
 if itunesForceCountry and itunesCountry:
 	iTunesRegion = itunesCountry
 else:
@@ -120,11 +121,11 @@ def beatportMain():
 	content = content[:content.find('<!-- End Mobile Touch Menu -->')]
 	match = re.compile('<a href="(.*?)" class="(.*?)" data-name=".+?">(.*?)</a>', re.DOTALL).findall(content)
 	allTitle = translation(40135)
-	addAutoPlayDir(allTitle, urlBaseBP+"/top-100", "listBeatportVideos", pic+'beatport.png', "", "browse")
+	addAutoPlayDir(allTitle, urlBaseBP+"/top-100", "listBeatportVideos", pic+'beatport.png', "")
 	for genreURL, genreTYPE, genreTITLE in match:
 		topUrl = urlBaseBP+genreURL+'/top-100'
 		title = cleanTitle(genreTITLE)
-		addAutoPlayDir(title, topUrl, "listBeatportVideos", pic+'beatport.png', "", "browse")
+		addAutoPlayDir(title, topUrl, "listBeatportVideos", pic+'beatport.png', "")
 	xbmcplugin.endOfDirectory(pluginhandle)
 	if forceView:
 		xbmc.executebuiltin('Container.SetViewMode('+viewIDGenres+')')
@@ -196,8 +197,8 @@ def listBeatportVideos(type, url, limit):
 		xbmc.Player().play(playlist)
 	
 def billboardMain():
-	addAutoPlayDir(translation(40108), urlBaseBB+"/charts/hot-100", "listBillboardCH_Videos", pic+'billboard.png', "", "browse")
-	addAutoPlayDir(translation(40109), urlBaseBB+"/charts/billboard-200", "listBillboardCH_Videos", pic+'billboard.png', "", "browse")
+	addAutoPlayDir(translation(40108), urlBaseBB+"/charts/hot-100", "listBillboardCH_Videos", pic+'billboard.png', "")
+	addAutoPlayDir(translation(40109), urlBaseBB+"/charts/billboard-200", "listBillboardCH_Videos", pic+'billboard.png', "")
 	addDir(translation(40110), "", "listBillboardArchiveYears", pic+'billboard.png')
 	addDir(translation(40111), "genre", "listBillboardCharts", pic+'billboard.png')
 	addDir(translation(40112), "country", "listBillboardCharts", pic+'billboard.png')
@@ -219,7 +220,7 @@ def listBillboardAR_Genres(url):
 	for url2, title in match:
 		if any(x in title.strip().lower() for x in UN_Supported):
 			continue
-		addAutoPlayDir(cleanTitle(title), urlBaseBB+'/archive/charts/'+url2, "listBillboardAR_Videos", pic+'billboard.png', "", "browse")
+		addAutoPlayDir(cleanTitle(title), urlBaseBB+'/archive/charts/'+url2, "listBillboardAR_Videos", pic+'billboard.png', "")
 	xbmcplugin.endOfDirectory(pluginhandle)
 	if forceView:
 		xbmc.executebuiltin('Container.SetViewMode('+viewIDPlaylists+')')
@@ -278,33 +279,33 @@ def listBillboardAR_Videos(type, url, limit):
 	
 def listBillboardCharts(type):
 	if type == "genre":
-		addAutoPlayDir("Pop", urlBaseBB+"/charts/pop-songs", "listBillboardCH_Videos", pic+'billboard.png', "", "browse")
-		addAutoPlayDir("Rock", urlBaseBB+"/charts/rock-songs", "listBillboardCH_Videos", pic+'billboard.png', "", "browse")
-		addAutoPlayDir("Alternative", urlBaseBB+"/charts/alternative-songs", "listBillboardCH_Videos", pic+'billboard.png', "", "browse")
-		addAutoPlayDir("R&B/Hip-Hop", urlBaseBB+"/charts/r-b-hip-hop-songs", "listBillboardCH_Videos", pic+'billboard.png', "", "browse")
-		addAutoPlayDir("R&B", urlBaseBB+"/charts/r-and-b-songs", "listBillboardCH_Videos", pic+'billboard.png', "", "browse")
-		addAutoPlayDir("Rap", urlBaseBB+"/charts/rap-song", "listBillboardCH_Videos", pic+'billboard.png', "", "browse")
-		addAutoPlayDir("Gospel", urlBaseBB+"/charts/gospel-songs", "listBillboardCH_Videos", pic+'billboard.png', "", "browse")
-		addAutoPlayDir("Country", urlBaseBB+"/charts/country-songs", "listBillboardCH_Videos", pic+'billboard.png', "", "browse")
-		addAutoPlayDir(translation(40114), urlBaseBB+"/charts/latin-songs", "listBillboardCH_Videos", pic+'billboard.png', "", "browse")
-		addAutoPlayDir(translation(40115), urlBaseBB+"/charts/jazz-songs", "listBillboardCH_Videos", pic+'billboard.png', "", "browse")
-		addAutoPlayDir(translation(40116), urlBaseBB+"/charts/tropical-songs", "listBillboardCH_Videos", pic+'billboard.png', "", "browse")
-		addAutoPlayDir(translation(40117), urlBaseBB+"/charts/soundtracks", "listBillboardCH_Videos", pic+'billboard.png', "", "browse")
-		addAutoPlayDir("Rhythmic", urlBaseBB+"/charts/rhythmic-40", "listBillboardCH_Videos", pic+'billboard.png', "", "browse")
-		addAutoPlayDir("Dance/Club", urlBaseBB+"/charts/dance-club-play-songs", "listBillboardCH_Videos", pic+'billboard.png', "", "browse")
-		addAutoPlayDir("Dance/Electronic", urlBaseBB+"/charts/dance-electronic-songs", "listBillboardCH_Videos", pic+'billboard.png', "", "browse")
+		addAutoPlayDir("Pop", urlBaseBB+"/charts/pop-songs", "listBillboardCH_Videos", pic+'billboard.png', "")
+		addAutoPlayDir("Rock", urlBaseBB+"/charts/rock-songs", "listBillboardCH_Videos", pic+'billboard.png', "")
+		addAutoPlayDir("Alternative", urlBaseBB+"/charts/alternative-songs", "listBillboardCH_Videos", pic+'billboard.png', "")
+		addAutoPlayDir("R&B/Hip-Hop", urlBaseBB+"/charts/r-b-hip-hop-songs", "listBillboardCH_Videos", pic+'billboard.png', "")
+		addAutoPlayDir("R&B", urlBaseBB+"/charts/r-and-b-songs", "listBillboardCH_Videos", pic+'billboard.png', "")
+		addAutoPlayDir("Rap", urlBaseBB+"/charts/rap-song", "listBillboardCH_Videos", pic+'billboard.png', "")
+		addAutoPlayDir("Gospel", urlBaseBB+"/charts/gospel-songs", "listBillboardCH_Videos", pic+'billboard.png', "")
+		addAutoPlayDir("Country", urlBaseBB+"/charts/country-songs", "listBillboardCH_Videos", pic+'billboard.png', "")
+		addAutoPlayDir(translation(40114), urlBaseBB+"/charts/latin-songs", "listBillboardCH_Videos", pic+'billboard.png', "")
+		addAutoPlayDir(translation(40115), urlBaseBB+"/charts/jazz-songs", "listBillboardCH_Videos", pic+'billboard.png', "")
+		addAutoPlayDir(translation(40116), urlBaseBB+"/charts/tropical-songs", "listBillboardCH_Videos", pic+'billboard.png', "")
+		addAutoPlayDir(translation(40117), urlBaseBB+"/charts/soundtracks", "listBillboardCH_Videos", pic+'billboard.png', "")
+		addAutoPlayDir("Rhythmic", urlBaseBB+"/charts/rhythmic-40", "listBillboardCH_Videos", pic+'billboard.png', "")
+		addAutoPlayDir("Dance/Club", urlBaseBB+"/charts/dance-club-play-songs", "listBillboardCH_Videos", pic+'billboard.png', "")
+		addAutoPlayDir("Dance/Electronic", urlBaseBB+"/charts/dance-electronic-songs", "listBillboardCH_Videos", pic+'billboard.png', "")
 	elif type == "country":
-		addAutoPlayDir(translation(40118), urlBaseBB+"/charts/canadian-hot-100", "listBillboardCH_Videos", pic+'billboard.png', "", "browse")
-		addAutoPlayDir(translation(40119), urlBaseBB+"/charts/japan-hot-100", "listBillboardCH_Videos", pic+'billboard.png', "", "browse")
-		addAutoPlayDir(translation(40120), urlBaseBB+"/charts/germany-songs", "listBillboardCH_Videos", pic+'billboard.png', "", "browse")
-		addAutoPlayDir(translation(40121), urlBaseBB+"/charts/france-digital-song-sales", "listBillboardCH_Videos", pic+'billboard.png', "", "browse")
-		addAutoPlayDir(translation(40122), urlBaseBB+"/charts/official-uk-songs", "listBillboardCH_Videos", pic+'billboard.png', "", "browse")
+		addAutoPlayDir(translation(40118), urlBaseBB+"/charts/canadian-hot-100", "listBillboardCH_Videos", pic+'billboard.png', "")
+		addAutoPlayDir(translation(40119), urlBaseBB+"/charts/japan-hot-100", "listBillboardCH_Videos", pic+'billboard.png', "")
+		addAutoPlayDir(translation(40120), urlBaseBB+"/charts/germany-songs", "listBillboardCH_Videos", pic+'billboard.png', "")
+		addAutoPlayDir(translation(40121), urlBaseBB+"/charts/france-digital-song-sales", "listBillboardCH_Videos", pic+'billboard.png', "")
+		addAutoPlayDir(translation(40122), urlBaseBB+"/charts/official-uk-songs", "listBillboardCH_Videos", pic+'billboard.png', "")
 	elif type == "other":
-		addAutoPlayDir(translation(40123), urlBaseBB+"/charts/radio-songs", "listBillboardCH_Videos", pic+'billboard.png', "", "browse")
-		addAutoPlayDir("Digital", urlBaseBB+"/charts/digital-song-sales", "listBillboardCH_Videos", pic+'billboard.png', "", "browse")
-		addAutoPlayDir(translation(40124), urlBaseBB+"/charts/streaming-songs", "listBillboardCH_Videos", pic+'billboard.png', "", "browse")
-		addAutoPlayDir(translation(40125), urlBaseBB+"/charts/on-demand-songs", "listBillboardCH_Videos", pic+'billboard.png', "", "browse")
-		addAutoPlayDir("TOP on Youtube", urlBaseBB+"/charts/youtube", "listBillboardCH_Videos", pic+'billboard.png', "", "browse")
+		addAutoPlayDir(translation(40123), urlBaseBB+"/charts/radio-songs", "listBillboardCH_Videos", pic+'billboard.png', "")
+		addAutoPlayDir("Digital", urlBaseBB+"/charts/digital-song-sales", "listBillboardCH_Videos", pic+'billboard.png', "")
+		addAutoPlayDir(translation(40124), urlBaseBB+"/charts/streaming-songs", "listBillboardCH_Videos", pic+'billboard.png', "")
+		addAutoPlayDir(translation(40125), urlBaseBB+"/charts/on-demand-songs", "listBillboardCH_Videos", pic+'billboard.png', "")
+		addAutoPlayDir("TOP on Youtube", urlBaseBB+"/charts/youtube", "listBillboardCH_Videos", pic+'billboard.png', "")
 	xbmcplugin.endOfDirectory(pluginhandle)
 	if forceView:
 		xbmc.executebuiltin('Container.SetViewMode('+viewIDGenres+')')
@@ -366,13 +367,13 @@ def ddpMain():
 	content = content[:content.find('<div class="contentbox">')]
 	match = re.compile('<li><a href="(.*?)">(.*?)</a></li>', re.DOTALL).findall(content)
 	addDir("[COLOR deepskyblue]"+translation(40126)+"[/COLOR]", "", "ddpMain", pic+'ddp-international.png')
-	addAutoPlayDir("     AKTUELLE VIDEOS TOP 30", urlBaseDDP+"DDP-Videochart/", "listDdpVideos", pic+'ddp-international.png', "", "browse")
+	addAutoPlayDir("     AKTUELLE VIDEOS TOP 30", urlBaseDDP+"DDP-Videochart/", "listDdpVideos", pic+'ddp-international.png', "")
 	for url2, title in match:
 		title = cleanTitle(title)
 		if not 'ddp' in title.lower() and not 'archiv' in title.lower() and not 'highscores' in title.lower():
 			if not 'schlager' in url2.lower():
 				if 'top 100' in title.lower() or 'hot 50' in title.lower() or 'einsteiger' in title.lower():
-					addAutoPlayDir('     '+title, url2, "listDdpVideos", pic+'ddp-international.png', "", "browse")
+					addAutoPlayDir('     '+title, url2, "listDdpVideos", pic+'ddp-international.png', "")
 				elif 'regional' in title.lower():
 					addDir('     '+title, url2, "listDdpRegional", pic+'ddp-international.png')
 				elif 'jahrescharts' in title.lower():
@@ -383,7 +384,7 @@ def ddpMain():
 		if not 'ddp' in title.lower() and not 'archiv' in title.lower() and not 'highscores' in title.lower():
 			if 'schlager' in url2.lower():
 				if 'top 100' in title.lower() or 'hot 50' in title.lower() or 'einsteiger' in title.lower():
-					addAutoPlayDir('     '+title, url2, "listDdpVideos", pic+'ddp-schlager.png', "", "browse")
+					addAutoPlayDir('     '+title, url2, "listDdpVideos", pic+'ddp-schlager.png', "")
 				elif 'jahrescharts' in title.lower():
 					addDir('     '+title, url2, "listDdpYearCharts", pic+'ddp-schlager.png')
 	xbmcplugin.endOfDirectory(pluginhandle)
@@ -397,7 +398,7 @@ def listDdpRegional(url):
 	match = re.compile('<span><strong><a href="(.*?)" alt=".+?">(.*?)</a></strong></span>\s+<span class=".+?">(.*?)</span>', re.DOTALL).findall(content)
 	for url2, toptitle, subtitle in match:
 		endURL = urlBaseDDP+'DDP-Charts-Regional/?'+url2.split('/?')[1]
-		addAutoPlayDir(cleanTitle(toptitle.strip()+'  [I]'+subtitle.strip()+'[/I]'), endURL, "listDdpVideos", pic+'ddp-international.png', "", "browse")
+		addAutoPlayDir(cleanTitle(toptitle.strip()+'  [I]'+subtitle.strip()+'[/I]'), endURL, "listDdpVideos", pic+'ddp-international.png', "")
 	xbmcplugin.endOfDirectory(pluginhandle)
 	if forceView:
 		xbmc.executebuiltin('Container.SetViewMode('+viewIDPlaylists+')')
@@ -418,7 +419,7 @@ def listDdpYearCharts(url):
 		musicVideos.append([title, endURL, thumb])
 	musicVideos = sorted(musicVideos, key=itemgetter(0), reverse=True)
 	for title, endURL, thumb in musicVideos:
-		addAutoPlayDir(cleanTitle(title), endURL, "listDdpVideos", thumb, "", "browse")
+		addAutoPlayDir(cleanTitle(title), endURL, "listDdpVideos", thumb, "")
 	xbmcplugin.endOfDirectory(pluginhandle)
 	if forceView:
 		xbmc.executebuiltin('Container.SetViewMode('+viewIDPlaylists+')')
@@ -492,8 +493,8 @@ def listDdpVideos(type, url, limit):
 		xbmc.Player().play(playlist)
 	
 def hypemMain():
-	addAutoPlayDir(translation(40136), urlBaseHypem+"/popular?ax=1&sortby=shuffle", 'listHypemVideos', pic+'hypem.png', "", "browse")
-	addAutoPlayDir(translation(40137), urlBaseHypem+"/popular/lastweek?ax=1&sortby=shuffle", 'listHypemVideos', pic+'hypem.png', "", "browse")
+	addAutoPlayDir(translation(40136), urlBaseHypem+"/popular?ax=1&sortby=shuffle", 'listHypemVideos', pic+'hypem.png', "")
+	addAutoPlayDir(translation(40137), urlBaseHypem+"/popular/lastweek?ax=1&sortby=shuffle", 'listHypemVideos', pic+'hypem.png', "")
 	addDir(translation(40138), "", 'listHypemMachine', pic+'hypem.png')
 	xbmcplugin.endOfDirectory(pluginhandle)
 	
@@ -505,7 +506,7 @@ def listHypemMachine():
 		dt -= datetime.timedelta(weeks=i)
 		months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 		month = months[int(dt.strftime("%m")) - 1]
-		addAutoPlayDir(dt.strftime("%d. %b - %Y").replace("Mar", translation(40160)).replace("May", translation(40161)).replace("Oct", translation(40162)).replace("Dec", translation(40163)), urlBaseHypem+"/popular/week:"+month+"-"+dt.strftime("%d-%Y")+"?ax=1&sortby=shuffle", 'listHypemVideos', pic+'hypem.png', "", "browse")
+		addAutoPlayDir(dt.strftime("%d. %b - %Y").replace("Mar", translation(40160)).replace("May", translation(40161)).replace("Oct", translation(40162)).replace("Dec", translation(40163)), urlBaseHypem+"/popular/week:"+month+"-"+dt.strftime("%d-%Y")+"?ax=1&sortby=shuffle", 'listHypemVideos', pic+'hypem.png', "")
 	xbmcplugin.endOfDirectory(pluginhandle)
 	if forceView:
 		xbmc.executebuiltin('Container.SetViewMode('+viewIDPlaylists+')')
@@ -564,16 +565,16 @@ def itunesMain():
 	content = content[:content.find('</div>')]
 	match = re.compile('<li><a href="https://itunes.apple.com/.+?/genre/.+?/id(.*?)"(.*?)title=".+?">(.*?)</a>', re.DOTALL).findall(content)
 	allTitle = translation(40135)
-	addAutoPlayDir(allTitle, "0", "listItunesVideos", pic+'itunes.png', "", "browse")
+	addAutoPlayDir(allTitle, "0", "listItunesVideos", pic+'itunes.png', "")
 	for genreID, genreTYPE, genreTITLE in match:
 		title = cleanTitle(genreTITLE)
 		if 'class="top-level-genre"' in genreTYPE:
 			if itunesShowSubGenres:
 				title = '[COLOR FF1E90FF]'+title+'[/COLOR]'
-			addAutoPlayDir(title, genreID, "listItunesVideos", pic+'itunes.png', "", "browse")
+			addAutoPlayDir(title, genreID, "listItunesVideos", pic+'itunes.png', "")
 		elif itunesShowSubGenres:
 			title = '     '+title
-			addAutoPlayDir(title, genreID, "listItunesVideos", pic+'itunes.png', "", "browse")
+			addAutoPlayDir(title, genreID, "listItunesVideos", pic+'itunes.png', "")
 	xbmcplugin.endOfDirectory(pluginhandle)
 	if forceView:
 		xbmc.executebuiltin('Container.SetViewMode('+viewIDGenres+')')
@@ -641,21 +642,21 @@ def listItunesVideos(type, genreID, limit):
 	except: pass
 	
 def ocMain():
-	addAutoPlayDir(translation(40139), urlBaseOC+"/charts/singles-chart/", "listOcVideos", pic+'official.png', "", "browse")
-	addAutoPlayDir(translation(40140), urlBaseOC+"/charts/uk-top-40-singles-chart/", "listOcVideos", pic+'official.png', "", "browse")
-	addAutoPlayDir(translation(40141), urlBaseOC+"/charts/asian-download-chart/", "listOcVideos", pic+'official.png', "", "browse")
-	addAutoPlayDir(translation(40142), urlBaseOC+"/charts/singles-chart-update/", "listOcVideos", pic+'official.png', "", "browse")
-	addAutoPlayDir(translation(40143), urlBaseOC+"/charts/singles-downloads-chart/", "listOcVideos", pic+'official.png', "", "browse")
-	addAutoPlayDir(translation(40144), urlBaseOC+"/charts/singles-sales-chart/", "listOcVideos", pic+'official.png', "", "browse")
-	addAutoPlayDir(translation(40145), urlBaseOC+"/charts/audio-streaming-chart/", "listOcVideos", pic+'official.png', "", "browse")
-	addAutoPlayDir(translation(40146), urlBaseOC+"/charts/vinyl-singles-chart/", "listOcVideos", pic+'official.png', "", "browse")
-	addAutoPlayDir(translation(40147), urlBaseOC+"/charts/scottish-singles-chart/", "listOcVideos", pic+'official.png', "", "browse")
-	addAutoPlayDir(translation(40148), urlBaseOC+"/charts/physical-singles-chart/", "listOcVideos", pic+'official.png', "", "browse")
-	addAutoPlayDir(translation(40149), urlBaseOC+"/charts/end-of-year-singles-chart/", "listOcVideos", pic+'official.png', "", "browse")
-	addAutoPlayDir(translation(40150), urlBaseOC+"/charts/classical-singles-chart/", "listOcVideos", pic+'official.png', "", "browse")
-	addAutoPlayDir(translation(40151), urlBaseOC+"/charts/dance-singles-chart/", "listOcVideos", pic+'official.png', "", "browse")
-	addAutoPlayDir("R&B", urlBaseOC+"/charts/r-and-b-singles-chart/", "listOcVideos", pic+'official.png', "", "browse")
-	addAutoPlayDir(translation(40152), urlBaseOC+"/charts/rock-and-metal-singles-chart/", "listOcVideos", pic+'official.png', "", "browse")
+	addAutoPlayDir(translation(40139), urlBaseOC+"/charts/singles-chart/", "listOcVideos", pic+'official.png', "")
+	addAutoPlayDir(translation(40140), urlBaseOC+"/charts/uk-top-40-singles-chart/", "listOcVideos", pic+'official.png', "")
+	addAutoPlayDir(translation(40141), urlBaseOC+"/charts/asian-download-chart/", "listOcVideos", pic+'official.png', "")
+	addAutoPlayDir(translation(40142), urlBaseOC+"/charts/singles-chart-update/", "listOcVideos", pic+'official.png', "")
+	addAutoPlayDir(translation(40143), urlBaseOC+"/charts/singles-downloads-chart/", "listOcVideos", pic+'official.png', "")
+	addAutoPlayDir(translation(40144), urlBaseOC+"/charts/singles-sales-chart/", "listOcVideos", pic+'official.png', "")
+	addAutoPlayDir(translation(40145), urlBaseOC+"/charts/audio-streaming-chart/", "listOcVideos", pic+'official.png', "")
+	addAutoPlayDir(translation(40146), urlBaseOC+"/charts/vinyl-singles-chart/", "listOcVideos", pic+'official.png', "")
+	addAutoPlayDir(translation(40147), urlBaseOC+"/charts/scottish-singles-chart/", "listOcVideos", pic+'official.png', "")
+	addAutoPlayDir(translation(40148), urlBaseOC+"/charts/physical-singles-chart/", "listOcVideos", pic+'official.png', "")
+	addAutoPlayDir(translation(40149), urlBaseOC+"/charts/end-of-year-singles-chart/", "listOcVideos", pic+'official.png', "")
+	addAutoPlayDir(translation(40150), urlBaseOC+"/charts/classical-singles-chart/", "listOcVideos", pic+'official.png', "")
+	addAutoPlayDir(translation(40151), urlBaseOC+"/charts/dance-singles-chart/", "listOcVideos", pic+'official.png', "")
+	addAutoPlayDir("R&B", urlBaseOC+"/charts/r-and-b-singles-chart/", "listOcVideos", pic+'official.png', "")
+	addAutoPlayDir(translation(40152), urlBaseOC+"/charts/rock-and-metal-singles-chart/", "listOcVideos", pic+'official.png', "")
 	xbmcplugin.endOfDirectory(pluginhandle)
 	if forceView:
 		xbmc.executebuiltin('Container.SetViewMode('+viewIDGenres+')')
@@ -736,13 +737,13 @@ def listSpotifyCC_Countries(type):
 		if any(x in toptitle.strip().lower() for x in UN_Supported):
 			continue
 		if type == "viraldaily":
-			addAutoPlayDir(cleanTitle(toptitle), urlBaseSCC+'viral/'+url2+'/daily/latest', "listSpotifyCC_Videos", pic+'spotify.png', "", "browse")
+			addAutoPlayDir(cleanTitle(toptitle), urlBaseSCC+'viral/'+url2+'/daily/latest', "listSpotifyCC_Videos", pic+'spotify.png', "")
 		elif type == "viralweekly":
-			addAutoPlayDir(cleanTitle(toptitle), urlBaseSCC+'viral/'+url2+'/weekly/latest', "listSpotifyCC_Videos", pic+'spotify.png', "", "browse")
+			addAutoPlayDir(cleanTitle(toptitle), urlBaseSCC+'viral/'+url2+'/weekly/latest', "listSpotifyCC_Videos", pic+'spotify.png', "")
 		elif type == "topdaily":
-			addAutoPlayDir(cleanTitle(toptitle), urlBaseSCC+'regional/'+url2+'/daily/latest', "listSpotifyCC_Videos", pic+'spotify.png', "", "browse")
+			addAutoPlayDir(cleanTitle(toptitle), urlBaseSCC+'regional/'+url2+'/daily/latest', "listSpotifyCC_Videos", pic+'spotify.png', "")
 		elif type == "topweekly":
-			addAutoPlayDir(cleanTitle(toptitle), urlBaseSCC+'regional/'+url2+'/weekly/latest', "listSpotifyCC_Videos", pic+'spotify.png', "", "browse")
+			addAutoPlayDir(cleanTitle(toptitle), urlBaseSCC+'regional/'+url2+'/weekly/latest', "listSpotifyCC_Videos", pic+'spotify.png', "")
 	xbmcplugin.endOfDirectory(pluginhandle)
 	if forceView:
 		xbmc.executebuiltin('Container.SetViewMode('+viewIDGenres+')')
@@ -852,7 +853,7 @@ def listSpotifyTUN_Playlists(url):
 			elif not thumb.startswith("http") and thumb.lower().endswith("default.jpg"):
 				thumb = "https://charts-images.scdn.co/"+thumb
 		except: thumb = pic+'noimage.png'
-		addAutoPlayDir(title, uriUrl, "listSpotifyTUN_Videos", thumb, description, "browse")
+		addAutoPlayDir(title, uriUrl, "listSpotifyTUN_Videos", thumb, description)
 	match = re.compile('page=(.+?)&per_page=(.+?)&', re.DOTALL).findall(url)
 	currentPage = int(match[0][0])
 	perPage = int(match[0][1])
@@ -1005,7 +1006,7 @@ def listDeezerArtists(url):
 	musicVideos = sorted(musicVideos, key=itemgetter(0), reverse=True)
 	for liked, artist, tracksUrl, thumb in musicVideos:
 		name = artist+"   [COLOR FFFFA500][Fans: "+str(liked).strip()+"][/COLOR]"
-		addAutoPlayDir(name, tracksUrl, "listDeezerVideos", thumb, "", "browse")
+		addAutoPlayDir(name, tracksUrl, "listDeezerVideos", thumb, "")
 	try:
 		nextPage = response['next']
 		if 'https://api.deezer.com/search/' in nextPage:
@@ -1074,7 +1075,7 @@ def listDeezerAlbums(url):
 		tracksUrl = item['tracklist'].encode('utf-8')+"?limit="+deezerVideosDisplay+"&index=0"
 		version = item['record_type'].encode('utf-8')
 		name = title+"   [COLOR deepskyblue]["+version.title().strip()+"[/COLOR] - [COLOR FFFFA500]Tracks: "+str(numbers).strip()+"][/COLOR]"
-		addAutoPlayDir(name, tracksUrl, "listDeezerVideos", thumb, "", "browse")
+		addAutoPlayDir(name, tracksUrl, "listDeezerVideos", thumb, "")
 	try:
 		nextPage = response['next']
 		if 'https://api.deezer.com/search/' in nextPage:
@@ -1105,7 +1106,7 @@ def listDeezerPlaylists(url):
 		if special in musicIsolated or artist == "":
 			continue
 		musicIsolated.add(special)
-		addAutoPlayDir(name, tracksUrl, "listDeezerVideos", thumb, "", "browse")
+		addAutoPlayDir(name, tracksUrl, "listDeezerVideos", thumb, "")
 	try:
 		nextPage = response['next']
 		if 'https://api.deezer.com/search/' in nextPage:
@@ -1135,7 +1136,7 @@ def listDeezerUserlists(url):
 		if name in musicIsolated or user == "":
 			continue
 		musicIsolated.add(name)
-		addAutoPlayDir(name, tracksUrl, "listDeezerVideos", thumb, "", "browse")
+		addAutoPlayDir(name, tracksUrl, "listDeezerVideos", thumb, "")
 	try:
 		nextPage = response['next']
 		if 'https://api.deezer.com/search/' in nextPage:
@@ -1187,7 +1188,7 @@ def listDeezerVideos(type, url, thumb, limit):
 		try:
 			nextPage = response['next']
 			if 'https://api.deezer.com/' in nextPage:
-				addAutoPlayDir(translation(40206), nextPage, "listDeezerVideos", thumb, "", "browse")
+				addAutoPlayDir(translation(40206), nextPage, "listDeezerVideos", thumb, "")
 		except: pass
 		xbmcplugin.endOfDirectory(pluginhandle)
 		if forceView:
@@ -1354,15 +1355,18 @@ def addDir(name, url, mode, iconimage="", description=""):
 	ok = xbmcplugin.addDirectoryItem(pluginhandle, url=u, listitem=liz, isFolder=True)
 	return ok
 	
-def addAutoPlayDir(name, url, mode, iconimage="", description="", type="", limit=""):
-	u = sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&type="+str(type)+"&limit="+str(limit)+'&thumb='+urllib.quote_plus(iconimage)
+def addAutoPlayDir(name, url, mode, iconimage, description):
+	u = sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&type="+playlistAction+"&thumb="+urllib.quote_plus(iconimage)
 	ok = True
 	liz = xbmcgui.ListItem(name, iconImage="DefaultMusicVideos.png", thumbnailImage=iconimage)
 	liz.setInfo(type="Video", infoLabels={"Title": name, "Plot": description, 'mediatype':'video'})
 	if useThumbAsFanart:
 		liz.setProperty("fanart_image", fanart)
 	entries = []
-	entries.append((translation(40231), 'RunPlugin(plugin://'+addon.getAddonInfo('id')+'/?mode='+str(mode)+'&url='+urllib.quote_plus(url)+'&type=play&limit=)',))
+	if playlistAction != "browse":
+		v = u.replace("&type="+playlistAction+"&", "&type=browse&")
+		entries.append((translation(40230), 'Container.Update('+v+')',))
+	entries.append((translation(40231), 'RunPlugin(plugin://'+addon.getAddonInfo('id')+'/?mode='+str(mode)+'&url='+urllib.quote_plus(url)+'&type=play)',))
 	entries.append((translation(40232), 'RunPlugin(plugin://'+addon.getAddonInfo('id')+'/?mode='+str(mode)+'&url='+urllib.quote_plus(url)+'&type=play&limit=10)',))
 	entries.append((translation(40233), 'RunPlugin(plugin://'+addon.getAddonInfo('id')+'/?mode='+str(mode)+'&url='+urllib.quote_plus(url)+'&type=play&limit=20)',))
 	entries.append((translation(40234), 'RunPlugin(plugin://'+addon.getAddonInfo('id')+'/?mode='+str(mode)+'&url='+urllib.quote_plus(url)+'&type=play&limit=30)',))

@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <settings>
 	<category label="30201">
+		<setting label="30149" type="enum" id="playlistAction" lvalues="1024|22083" default="0"/>
 		<setting label="30102" type="text" id="blacklist" default=""/>
 		<setting type="sep"/>
 		<setting label="30231" type="lsep"/>
